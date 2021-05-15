@@ -1,0 +1,78 @@
+
+<div class="container p-3">
+    
+    <a href="/profile" class="btn-sm back-btn"> <i class="fas fa-angle-double-left"></i>Volver</a> <br>
+    
+        <h5 class="text-center">Datos del usuario</h5> 
+        <div class="col-md-6 mx-auto">
+        
+        <table class="table table-bordered table-sm">
+        <thead class="thead-dark">
+            <tr>
+            <th scope="col">usuario</th>
+            <th scope="col">nombre</th>
+            <th scope="col">contacto</th>
+            </tr>
+        </thead>
+    
+        <tbody>
+            <tr>
+            <td data-label="Usuario"><p class="card-text">{{usuarios.Nombre_Usuario}}</p></td>
+            <td data-label="Nombre"><p class="card-text">{{usuarios.Nombre}} {{usuarios.Apellido}}</p></td>
+            <td class="text-center"><small class="text-muted">{{usuarios.Telefono}}</small></p>
+            </tr>
+           
+        </tbody>
+    </table> <hr class="my-4">
+    </div>
+    
+    <div class="container content-row pt-3">
+        <div class="row mb-2">
+            
+            <div class="col-sm-4 mb-4">
+                <div class="card-info h-100">
+                
+                <div class="card-body">
+                   <div class="text-center mb-4"> <i class="far fa-calendar-alt icono-res"></i>  
+                    <h4 class="mt-2">Reserva tu equipo</h4>
+                </div>
+                <div class="text-center mb-2">
+                    <a href="/reservarEquipos?id_usuario={{usuarios.Id_Usuario}}"><button type="button" class="btn btn-warning mb-2 btn-responsive">Reservar Artículo</button></a> 
+                  </div>
+                </div>
+                </div>
+            </div>
+
+            <div class="col-sm-4 mb-4">
+                <div class="card-info h-100">
+                
+                <div class="card-body">
+                   <div class="text-center mb-4"> <i class="far fa-calendar-check icono-res"></i> 
+                    <h4 class="mt-2">Ve tus reservaciones</h4>
+                </div>
+                <div class="text-center mb-2">
+                    <a href="/cancelarReservaciones?id_usuario={{usuarios.Id_Usuario}}"><button type="button" class="btn btn-warning  mb-2 btn-responsive">Ver Reservaciones</button></a> 
+                  </div>
+                </div>
+                </div>
+            </div>
+
+            <div class="col-sm-4 mb-4">
+                <div class="card-info h-100">
+                
+                <div class="card-body">
+                   <div class="text-center mb-4"> <i class="fas fa-check-double icono-res"></i>
+                    <h4 class="mt-2">Ve tus prestamos</h4>
+                </div>
+                <div class="text-center mb-2">
+                    <a href="/verPrestamos?id_usuario={{usuarios.Id_Usuario}}"><button type="button" class="btn btn-warning mb-2 btn-responsive">Ver Prestamos</button></a> 
+                  </div>
+                </div>
+                </div>
+            </div>
+        </div>
+        </div>  
+
+    
+
+</div>

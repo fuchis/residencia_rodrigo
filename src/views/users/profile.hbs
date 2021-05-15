@@ -1,0 +1,109 @@
+<div class="container p-4">
+  <div class="row">
+    <div class="col-md-4 mx-auto">
+      <div class="card text-center">
+        <div class="card-header">
+          <h3>Editar Datos de Usuario</h3>
+        </div>
+        <div class="card-body">
+            <form method="POST" action="/editarUsuario" name="formID" id="formID">
+                <input type="hidden" name="Id_Usuario" value={{usuarios.Id_Usuario}}>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Nombre de usuario</label>
+                    <input name="Nombre_Usuario" value={{usuarios.Nombre_Usuario}} type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Nombre de usuario">
+                </div>
+                <div class="form-group">
+                    <label for="">Nombre</label>
+                    <input type="text" name="Nombre" value={{usuarios.Nombre}}>
+                </div>
+                <div class="form-group">
+                    <label for="">Apellido</label>
+                    <input type="text" name="Apellido" value={{usuarios.Apellido}}>
+                </div>
+                <div class="form-group">
+                    <label for="">Tipo</label>
+                    <select name="Tipo" id="">
+                        <option value={{usuarios.Tipo}} selected hidden>{{usuarios.TipoForm}}</option>
+                        <option value="1">Administrador</option>
+                        <option value="2">Servicio Social</option>
+                        <option value="3">Maestro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="">Estado</label>
+                    <select name="Estado"> 
+                        <option value="" selected hidden>--Seleccione una opción --</option>
+                        <option value="0">Deshabilitado </option>
+                        <option value="1">Activo</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="">Contraseña</label>
+                    <input type="password" name="Pass">
+                </div>
+               
+                    <input type="hidden" name="Estado" value={{usuarios.Estado}}>
+                
+                <div class="form-group">
+                    <label for="">Telefono</label>
+                    <input type="text" name="Telefono" value={{usuarios.Telefono}}>
+                </div>  
+                <button type="submit" onclick="validacion(event)" class="btn btn-primary">Actualizar datos</button>
+                <a href='/usuarios' type="button" class="btn btn-danger text-white">Cancelar</a>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const validacion = async (e) => {
+    e.preventDefault();
+    let form = document.getElementById("formID");
+    const formulario = {
+      username: form["Nombre_Usuario"].value,
+      nombre: form["Nombre"].value,
+      apellido: form["Apellido"].value,
+      password: form["Pass"].value,
+      telefono: form["Telefono"].value,
+    }
+
+    Swal.fire({
+        title: '¿Estás seguro(a)?',
+        text: "Editar datos de usuario",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, registrar usuario',
+        cancelButtonText: 'Cancelar'
+        }).then((result) => {
+        if (result.isConfirmed) {
+          let cont = 0;
+          Object.keys(formulario).map(key => {
+            if(formulario[key] === ""){
+              alert(`favor de llenar campo: ${key}`)
+              cont++;
+            }
+
+            if(key==="telefono") {
+              pattern = new RegExp("^[0-9]{10}$");
+              let result = pattern.test(formulario[key]);
+              if(!result){
+                alert("Favor de ingresar un numero de telefono valido")
+                cont++;
+              }
+            }
+          })
+
+          if(cont===0){
+            form.submit();
+          }else {
+            cont = 0;
+          }
+            //
+        }
+        })
+}
+</script>

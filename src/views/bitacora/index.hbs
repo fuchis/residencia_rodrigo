@@ -1,0 +1,146 @@
+
+</script>
+<div class="container p-4">
+    <h3 class="card-title text-center">Bitácora</h3>
+ <form action="/bitacoraBusqueda" method="POST">
+    <div class="input-group mb-3">
+        <input type="text" placeholder="Filtrar registros" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="busqueda">
+        <div class="input-group-prepend">
+            <select class="input-group-text" id="exampleFormControlSelect1" name="filtro">
+                <option value="0" selected hidden>Filtrar por: </option>
+                <option value="0">Sin filtro</option>
+                <option value="1">Sesiones</option>
+                <option value="2">Historial de visitas</option>
+                <option value="3">Prestamos y Reservaciones</option>
+                <option value="4">Registros de Usuario</option>
+                <option value="5">Fallos</option>
+            </select>
+        </div>
+        <!--<div class="input-group-prepend">
+            <input class="datepicker" type="date" name="fechaInicio">
+            <input class="datepicker" type="date" name="fechaFin">
+        </div>--> 
+        <div class="input-group-prepend">
+            <button class="input-group-text" type="submit" id="inputGroup-sizing-default" >Buscar</buttont>
+        </div>
+    </div>
+</form> 
+
+
+<div class=" float-left d-flex justify-content-end mb-2">
+    <a href="/profile" class="btn-sm back-btn"> <i class="fas fa-angle-double-left"></i> Volver</a>
+</div>
+<div class="justify-content-end mb-2 float-right" >
+    <a href="/vaciarBitacora" class="mr-3 btn btn-sm" onclick="confirmar(event)"> Generar Respaldo y Vaciar Bitácora</a>
+    <a href="/descargarBitacora" class=""> <i class="pdf-icon fa fa-lg fa-file-pdf" aria-hidden="true"></i></a>
+</div>
+
+<table class="table table-bordered table-hover table-sm">
+    <thead class="thead-dark">
+        <tr>
+        {{!-- <th scope="col">Id Bitácora</th> --}}
+        <th scope="col">Nombre</th>
+        <th scope="col">Usuario</th>
+        <th scope="col">Descripción</th>
+        <th scope="col">Fecha</th>
+        </tr>
+    </thead>
+    
+    {{#each registros }}
+    <tbody>
+        <tr class="mb-2">
+        {{!-- <td data-label="Id Bitácora"><p class="card-text">{{Id_Bitacora}}</p></td> --}}
+        <td data-label="Nombre"><p class="card-text">{{Nombre_Usuario}} {{Apellido}}</p></td>
+        <td class="text-center" data-label="Usuario"><small class="text-muted">{{Usuario}}</small></p>
+        <td class="text-center" data-label="Descripción"><small class="{{alerta_estado}}">{{Descripcion}}</small></p>
+        <td class="text-center" data-label="Fecha"><time>{{timeago Fecha }}</time></p>
+        </tr>
+    </tbody>
+    {{/each}}
+</table>
+
+{{#if busqueda}}
+<div id="paginador"></div>
+{{else}}
+<div id="paginador"></div>
+{{/if}}
+</div>
+
+<script src="/js/pagination.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    function confirmar(e){ 
+        e.preventDefault();
+        Swal.fire({
+            title: '¿Estas seguro(a)?',
+            text: "No seras capaz de revertir esta acción",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, vacía la bitácora!',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href='/vaciarBitacora'
+            Swal.fire(
+            'Bitácora vaciada',
+            'Se ha generado un respaldo en PDF',
+            'success'
+            )
+
+        }
+        })
+    }
+        
+</script>
+{{#if busqueda}}
+<script>
+    Date.prototype.toDateInputValue = (function() {
+    var local = new Date(this);
+    local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+    console.log(local.toJSON())
+    return local.toJSON().slice(0,10);
+});
+
+$(document).ready( function() {
+    $('.datepicker').val(new Date().toDateInputValue());
+})
+
+</script>
+{{else}}
+<script>
+Date.prototype.toDateInputValue = (function() {
+    var local = new Date(this);
+    local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+    console.log(local.toJSON())
+    return local.toJSON().slice(0,10);
+});
+
+$(document).ready( function() {
+    $('.datepicker').val(new Date().toDateInputValue());
+})
+
+
+$(async function() {
+    const response = await axios.get('/paginadorBitacora');
+
+    $('#paginador').pagination({
+        items:"{{{resultados}}}",
+        itemsOnPage: 15,
+        cssStyle: 'light-theme',
+        currentPage: "{{{paginaActual}}}",
+        hrefTextPrefix: "?Pagina=",
+        prevText: "<<",
+        nextText: ">>"
+        
+        
+    });
+    
+});
+
+
+</script>
+
+{{/if}}
+

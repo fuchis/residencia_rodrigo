@@ -1,0 +1,137 @@
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+
+ 
+
+<div class="container p-4">
+    <h3 class="text-center">Historial de Préstamos</h3>
+    <div class="mb-2">
+    <a href="/profile" class="btn-sm back-btn"> <i class="fas fa-angle-double-left"></i>Volver</a>
+    </div>
+
+    {{!-- <div class="float-rigth">
+        <a href="/vaciarG" class="btn-sm back-btn" onclick="confirmar(event)" > <i class="fas fa-trash-alt"></i> Vaciar estadisticas globales</a>
+    </div> --}}
+
+    <div>
+     {{!-- <form action="/equiposHistorial" method="POST">
+            <div class="input-group mb-3">´
+                <input type="hidden" name="id_usuario" value={{usuario.Id_Usuario}}>
+                <input type="text" placeholder="Buscar Prestamo" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="busqueda">
+                    <div class="input-group-prepend">
+                        <button class="input-group-text" type="submit" id="inputGroup-sizing-default" >Buscar</buttont>
+                    </div>
+            </div>
+        </form>  --}}
+<input class="form-control" id="myInput" type="text" placeholder="Buscar...">
+    </div> <br>
+
+    <table class="table table-bordered table-hover table-sm" >
+    <thead  class="thead-dark">
+        <tr>
+            <th scope="col" >Usuario</th>
+            <th scope="col" >Nombre</th>
+            <th scope="col" >Nombre de equipo</th>
+            <th scope="col" >Estado</th>
+            <th scope="col">Fecha</th>
+            {{!-- <th scope="col">Acción</th> --}}
+        </tr>
+    </thead>
+    {{#each prestamos}}
+
+    <tbody id="myTable">
+        <tr>
+            <td data-label="Usuario"><h5 class="card-title">{{Nombre_Usuario}}</h5></td>
+            <td data-label="Nombre"><p class="card-text">{{Nombre}} {{Apellido}}</p></td>
+            <td data-label="Nombre de equipo"><p class="card-text">{{Nombre_Equipo}}</p></td>
+            <td data-label="Estado"><p class="card-text">{{estado Estado_Equipo}}</p></td>
+            <td data-label="Fecha"><p class="card-text">{{timeago Fecha}}</p></td>
+            {{!-- {{#if (detallesPR Estado_Equipo)}}
+            
+                {{#if (detalles Estado_Equipo)}}
+                <td data-label="Acción"><p class="card-text"> <a href="/devolverEquipo?id_usuario={{Usuario_Id}}&id_equipo={{Equipo_Id}}"><buttton class="btn btn-primary">Detalles</buttton></a> </p></td>
+                {{else}}
+                <td data-label="Acción"><p class="card-text"> <a href="/cancelarReservacion/{{Equipo_Id}}?id_usuario={{Usuario_Id}}"><buttton class="btn btn-primary">Detalles</buttton></a> </p></td>
+                {{/if}}
+                {{else}}
+                <td data-label="Acción"><p class="card-text"><button class="btn btn-secondary" disabled>Detalles</button></p></td>
+            {{/if}} --}}
+            
+        </tr>
+    </tbody>
+    {{/each}}
+    </table>
+    {{#if busqueda}}
+    <div id="paginador"></div>
+    {{/if}}
+</div>
+
+{{#if busqueda}}
+
+<script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+
+
+
+<script src="/js/pagination.min.js"></script>
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    function confirmar(e){ 
+        e.preventDefault();
+        Swal.fire({
+            title: '¿Estas seguro(a)?',
+            text: "Esto vaciara la tabla de prestamos y no seras capaz de revertir esta acción",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, restablecer graficas!',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href='/vaciarG'
+            Swal.fire(
+            'Historial vaciado',
+            
+            'success'
+            )
+
+        }
+        })
+    }
+        
+</script>
+
+
+<script>
+    $(async function() {
+    
+
+    $('#paginador').pagination({
+        items:"{{{resultados}}}",
+        itemsOnPage: 80,
+        cssStyle: 'light-theme',
+        currentPage: "{{{paginaActual}}}",
+        hrefTextPrefix: "?Pagina=",
+        prevText: "<<",
+        nextText: ">>"
+        
+        
+    });
+    
+});
+</script>
+
+{{/if}}

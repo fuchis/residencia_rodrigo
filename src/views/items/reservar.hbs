@@ -1,0 +1,67 @@
+<style>
+
+  table tr{
+    margin-bottom: .635em !important;
+  }
+  tbody tr{
+        text-transform: uppercase;
+}
+</style>
+<div class="container p-4">
+
+
+<div class="mb-2">
+{{#if usuario.Maestro }}
+<a href="/usuarios/{{usuario.Id_Usuario}}" class="btn-sm back-btn"> <i class="fas fa-angle-double-left"></i>Volver</a>
+{{else}}
+<a href="/usuarios" class="btn-sm back-btn"> <i class="fas fa-angle-double-left"></i>Volver</a>
+{{/if}}
+</div>
+<h3 class="text-center mb-4">Reservar Artículos</h3>
+<form action="/mostrarEquipos" method="POST">
+    <div class="input-group mb-3">
+    {{#if busqueda}}
+    <input type="hidden" name="id_usuario" value={{id_usuario}}>
+    {{else}}
+    <input type="hidden" name="id_usuario" value={{Id_Usuario}}>
+    {{/if}}
+    <input type="hidden" name="tipo_operacion" value="reservacion">
+    <input type="text" placeholder="Buscar Artículo" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="busqueda">
+    <div class="input-group-prepend">
+        <button class="input-group-text" type="submit" id="inputGroup-sizing-default" >Buscar</buttont>
+    </div>
+    </div>
+</form>
+
+<table class="table table-bordered table-sm">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Artículo</th>
+        <th scope="col">Código ID</th>
+        {{!-- <th scope="col">N° de Invetario</th>
+        <th scope="col">N° Interno</th> --}}
+        <th scope="col">Marca</th>
+        {{!-- <th scope="col">Caracteristicas</th> --}}
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    {{#each equipos}}
+    
+    <tbody>
+      <tr>
+        <td data-label="Equipo"><small class="card-title">{{Nombre}}</small></td>
+        <td data-label="Código"><small class="card-text">{{Codigo_Serie}}</small></td>
+        {{!-- <td data-label="Modelo"><small class="card-text" style="word-wrap: break-word;">{{Modelo}}</small></td>
+        <td data-label="Categoría"><small class="card-text" style="word-wrap: break-word;">{{Categoria}}</small></td> --}}
+        <td data-label="Marca"><small class="card-text">{{Marca}}</small></td>
+        {{!-- <td data-label="Descripción"><small class="card-text">{{Descripcion}}</small></td> --}}
+        {{#if ../busqueda}}
+        <td class="text-center"><a href="/reservarEquipo/{{Id_Equipo}}?id_usuario={{../id_usuario}}"><button type="button" class="btn btn-primary btn-sm">Reservar Articulo</button></a></td>
+        {{else}}
+        <td class="text-center"><a href="/reservarEquipo/{{Id_Equipo}}?id_usuario={{../Id_Usuario}}"><button type="button" class="btn btn-primary btn-sm">Reservar Articulo</button></a></td>
+        {{/if}}
+      </tr>
+    </tbody>
+    {{/each}}
+  </table>
+</div>

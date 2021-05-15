@@ -1,0 +1,138 @@
+
+<div class="container p-4">
+<h3 class="text-center">Usuarios</h3> 
+
+<div class="float-left d-flex justify-content-end mb-2">
+    <a href="/profile" class="btn-sm back-btn"> <i class="fas fa-angle-double-left"></i> Volver</a>
+</div>
+{{#if usuario.Admin}}
+<a href="/register" class="float-right btn-user">Registrar Usuario</a>
+{{/if}}
+<br>
+
+<form action="/usuarios" method="POST">
+    <div class="input-group mb-3">
+        <input type="text" placeholder="Buscar Usuario" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="busqueda">
+    <div class="input-group-prepend">
+    <button class="input-group-text" type="submit" id="inputGroup-sizing-default" >Buscar</buttont>
+    </div>
+    </div>
+</form>
+
+<table class="table table-bordered table-sm">
+    <thead class="thead-dark">
+        <tr>
+        <th scope="col">usuario</th>
+        <th scope="col">nombre</th>
+        <th scope="col">contacto</th>
+        <th scope="col">estado</th>
+        <th scope="col">Tipo</th>
+        </tr>
+    </thead>
+    {{#each usuarios columns="3"}}
+    <tbody>
+        <tr class="mb-2">
+        <td data-label="usuario"><p class="card-text">{{Nombre_Usuario}}</p></td>
+        <td data-label="nombre"><p class="card-text">{{Nombre}} {{Apellido}}</p></td>
+        <td class="text-center"><small class="text-muted">{{Telefono}}</small></p>
+        <td class="text-center"><small class="{{alerta_estado}}">{{Estado_Form}}</small></p>
+        <td class="text-center"><small class="text-muted">{{TipoForm}}</small></p>
+        </tr>
+
+        <tr>
+        <td colspan="5" class="text-center"> 
+        {{#if Maestro }}
+        <a href="/mostrarEquipos?id_usuario={{Id_Usuario}}"><button type="button" class="btn btn-primary col-6 col-sm-2 mb-2 btn-responsive">Prestar Artículo</button></a>
+        <a href="/devolverEquipos?id_usuario={{Id_Usuario}}"><button type="button" class="btn btn-primary col-6 col-sm-2 mb-2 btn-responsive">Devolver Artículo</button></a>
+        <a href="/reservarEquipos?id_usuario={{Id_Usuario}}"><button type="button" class="btn btn-primary col-6 col-sm-2 mb-2 btn-responsive">Reservar Artículo</button></a>
+        <a href="/cancelarReservaciones?id_usuario={{Id_Usuario}}"><button type="button" class="btn btn-primary col-6 col-sm-2 mb-2 btn-responsive">Ver Reservaciones</button></a>
+        {{/if}}
+        {{#if ../usuario.Admin }}
+        <a href="/editarUsuario?id_usuario={{Id_Usuario}}"><button type="button"  class="btn btn-secondary col-6 col-sm-2 mb-2 btn-responsive">Editar Usuario</button></a>
+        {{#if Administrador}} 
+            
+        {{ else }}
+        {{#if habilitado}}
+        <form action="/bajaUsuario" method="POST" id="formID{{@index}}">
+            <button type="submit" onclick=" validacion(event, {{@index}})" class="btn btn-outline-danger col-6 col-sm-3 btn-responsive">Dar usuario de Baja</button>
+            <input type="hidden" name="id_usuario" value={{Id_Usuario}}>
+        </form>
+        {{/if}}
+        {{/if}}
+        {{/if}}
+    </td>
+    </tr>
+    </tbody>
+    {{/each}}
+</table>
+
+{{#if busqueda }}
+
+{{else}}
+<div id="paginador">{{busqueda}}</div>
+{{/if}}
+</div>
+
+
+<script src="/js/pagination.min.js"></script>
+<script>
+Date.prototype.toDateInputValue = (function() {
+    var local = new Date(this);
+    local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+    console.log(local.toJSON())
+    return local.toJSON().slice(0,10);
+});
+
+$(document).ready( function() {
+    $('.datepicker').val(new Date().toDateInputValue());
+})
+
+
+$(async function() {
+    //const response = await axios.get('/paginadorBitacora');
+
+    $('#paginador').pagination({
+        items:"{{{resultados}}}",
+        itemsOnPage: 15,
+        cssStyle: 'light-theme',
+        currentPage: "{{{paginaActual}}}",
+        hrefTextPrefix: "?Pagina=",
+        prevText: "<<",
+        nextText: ">>"
+        
+        
+    });
+    
+});
+
+
+</script>
+<script>
+
+const validacion = (e, index) => {
+    console.log(e)
+    console.log(index)
+    e.preventDefault();
+    let form = document.getElementById(`formID${index}`);
+    Swal.fire({
+        title: '¿Estás seguro(a)?',
+        text: "El usuario sera dado de baja",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, dar usuario de baja!',
+        cancelButtonText: 'Cancelar',
+        }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire(
+            'Deshabilitado!',
+            'El Usuario ha sido dado de baja',
+            'success'
+            )
+            form.submit();
+        }
+        })
+}
+</script>
+

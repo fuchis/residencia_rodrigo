@@ -1,0 +1,39 @@
+
+<div class="container p-4">
+    
+<form action="/equipos" method="POST">
+    <div class="input-group mb-3">
+    
+    <input type="text" placeholder="Buscar Artículo" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" name="busqueda">
+    <div class="input-group-prepend">
+        <button class="input-group-text" type="submit" id="inputGroup-sizing-default" >Buscar</buttont>
+    </div>
+    </div>
+</form>
+
+<br>
+{{Id_Usuario}}
+{{#each equipos}}
+<div class="card-deck">       
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">{{Nombre}}</h5>
+            <p class="card-text">{{Codigo_Serie}}</p>
+            <p class="card-text">{{Modelo}}</p>
+            <p class="card-text">{{Categoria}}</p>
+            <p class="card-text">{{Marca}}</p>
+            <p class="card-text">{{Descripcion}}</p>
+            <a href="/prestarEquipos/{{Id_Equipo}}?id_usuario={{../Id_Usuario}}"><button type="button" class="btn btn-primary">Prestar Artículo</button></a>
+            <a href="/devolverEquipos?id_usuario={{../Id_Usuario}}"><button type="button" class="btn btn-primary">Devolver Artículo</button></a>
+            <a href="/reservarEquipos?id_usuario={{../Id_Usuario}}"><button type="button" class="btn btn-primary">Reservar Artículo</button></a>
+            <a href="/cancelarReservaciones?id_usuario={{../Id_Usuario}}"><button type="button" class="btn btn-primary">Ver Reservaciones</button></a>
+            <a href="/bajaUsuario?id_usuario={{../Id_Usuario}}"><button type="button" class="btn btn-primary">Dar usuario de Baja</button></a>
+        </div>
+
+    </div>
+   
+         
+
+</div>
+{{/each}}
+</div>

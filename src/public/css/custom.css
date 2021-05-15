@@ -1,0 +1,209 @@
+body {
+  background: #f5f6fa;
+  font-family: 'Oswald', sans-serif; 
+}
+
+.word-b{
+  word-wrap: break-word;
+}
+
+.btn-responsive{
+  white-space: normal !important;
+  word-wrap: break-word;
+}
+/* la barra de nav */
+.navbar {
+  background: black !important;
+}
+
+ .nav-link {
+  color: #fff !important;
+  padding: 7px 18px;
+  margin-top: 5px;
+  margin-right: 7px;
+} 
+
+.nav-link:hover{
+  color: white !important;
+  background-color: rgb(27, 27, 27);
+}
+
+/* el card del login */
+.card{
+  border-radius: 5px !important;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  background-color: #fafafa !important;
+}
+
+/* img de login */
+.img-itm{
+  width: 130px;
+  margin: auto;
+ position: relative;
+  top: 40px;
+z-index: 1;
+}
+
+.card-header{
+  background-color: grey !important;
+}
+
+/* focus del input login */
+.form-control:focus{
+  box-shadow: none !important;
+  border-color: rgba(115, 12, 29, 0.2) !important;
+}
+
+.btn-login{
+  background-color: #023047 !important;
+  width: 250px;
+  border: none;
+}
+
+/* index profile */
+.user-calendar{
+  
+  background-color: #f8edeb !important;
+}
+
+a:hover{
+  text-decoration: none;
+}
+
+/* icono pdf */
+.pdf-icon{
+  color:rgb(182, 31, 31);
+  border-bottom: 1px solid rgb(182, 31, 31) ;
+}
+
+.pdf-icon:hover{
+  color: rgb(214, 78, 78);
+}
+
+/* Btn volver */
+
+.back-btn{
+  color:rgb(0, 0, 0) ;
+}
+
+.back-btn:hover{
+  color:rgb(12, 107, 231) ;
+}
+
+/* usuarios pag */
+/* boton reg user */
+.btn-user{
+ border-bottom: 2px black solid;
+ padding: 2px;
+ color: rgb(0, 0, 0);
+}
+
+.btn-user:hover{
+  color: rgb(16, 168, 168);
+  border-bottom: 2px rgb(16, 168, 168) solid;
+}
+
+/* tabla de equipos */
+.item-th{
+  font-size: 14px;
+}
+
+
+.card-info{
+  border-radius: 5px !important;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  background-color: #fafafa !important;
+}
+
+.icono-res{
+    font-size: 3rem;
+    border: 1px solid rgb(110, 136, 214);
+    background-color:rgb(110, 136, 214);
+    color: #fafafa;
+    padding: 18px;
+    border-radius: 100%;
+}
+
+.icono-img{
+  width: 100px;
+}
+
+
+table {
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  table-layout: fixed;
+}
+
+table caption {
+  font-size: 1.5em;
+  margin: .5em 0 .75em;
+}
+
+table tr {
+  background-color: #f8f8f8;
+  /* border: 1px solid #ddd; */
+  padding: .35em;
+}
+
+table th,
+table td {
+  padding: .625em;
+  text-align: center;
+}
+
+table th {
+  font-size: .85em;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+@media screen and (max-width: 600px) {
+  table {
+    border: 0;
+  }
+
+  table caption {
+    font-size: 1.3em;
+  }
+  
+  table thead {
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+  
+  table tr {
+    /* border-bottom: 3px solid #ddd; */
+    display: block;
+  }
+  
+  table td {
+    /* border-bottom: 1px solid #ddd; */
+    display: block;
+    font-size: .8em;
+    text-align: right;
+  }
+  
+  table td::before {
+    /*
+    * aria-label has no advantage, it won't be read inside a table
+    content: attr(aria-label);
+    */
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  
+ 
+}
+

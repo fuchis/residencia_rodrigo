@@ -1,0 +1,224 @@
+  <style>
+      body {
+  background: #f5f6fa;
+font-family: 'Oswald', sans-serif;
+}
+
+.index {
+    width: 100vw;
+    height: 100vh;
+  
+}
+
+
+ 
+
+  /* @media (min-width: 992px) {
+    .masthead {
+      height: 100vh;
+    }  */
+
+  
+  table {
+    /* border: 1px solid #ccc; */
+    border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    table-layout: fixed;
+  }
+  
+  table caption {
+    font-size: 1.5em;
+    margin: .5em 0 .75em;
+  }
+  
+  table tr {
+    background-color: #ebebeb;
+    /* border: 1px solid #ddd; */
+    padding: .35em;
+  }
+  
+  table th,
+  table td {
+    padding: .625em;
+    text-align: center;
+  }
+  
+  table th {
+    font-size: .85em;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  
+  @media screen and (max-width: 600px) {
+    table {
+      border: 0;
+    }
+  
+    table caption {
+      font-size: 1.3em;
+    }
+    
+    table thead {
+      border: none;
+      clip: rect(0 0 0 0);
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      padding: 0;
+      position: absolute;
+      width: 1px;
+    }
+    
+    table tr {
+      /* border-bottom: 3px solid #ddd; */
+      display: block;
+      margin-bottom: .625em;
+    }
+    
+    table td {
+      /* border-bottom: 1px solid #ddd; */
+      display: block;
+      font-size: .8em;
+      text-align: right;
+    }
+    
+    table td::before {
+      /*
+      * aria-label has no advantage, it won't be read inside a table
+      content: attr(aria-label);
+      */
+      content: attr(data-label);
+      float: left;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    
+   
+  }
+
+ 
+  .list-group-item {
+    user-select: none;
+    padding: 1%;
+    border-radius: 8px;
+  }
+  
+  .list-group input[type="checkbox"] {
+    display: none;
+  }
+  
+  .list-group input[type="checkbox"] + .list-group-item {
+    cursor: pointer;
+  }
+  
+  .list-group input[type="checkbox"] + .list-group-item:before {
+    content: "\2713";
+    color: transparent;
+    font-weight: bold;
+    margin-right: 1em;
+  }
+  
+  .list-group input[type="checkbox"]:checked + .list-group-item {
+    background-color: #0275D8;
+    color: #FFF;
+  }
+  
+  .list-group input[type="checkbox"]:checked + .list-group-item:before {
+    color: inherit;
+  }
+
+
+  </style>
+  
+<div class="container p-4">
+  <div class="mb-2">
+        <a href="/mostrarEquipos?id_usuario={{Id_Usuario}}" class="btn-sm back-btn"> <i class="fas fa-angle-double-left"></i>Volver</a>      
+  </div>
+  <h4 class="text-center mb-4">Prestar Artículo</h4>
+    <div class="col-md-8 mx-auto">
+      <table class="table table-sm">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Artículo</th>
+            <th scope="col">Código ID</th>
+            {{!-- <th scope="col">Modelo</th>
+                  <th scope="col">Categoría</th> --}}
+            <th scope="col">Marca</th>
+            {{!-- <th scope="col">Descripción</th>
+                  <th scope="col">Tiempo de vida util restante</th> --}}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="Equipo"><h5 class="card-title">{{equipo.Nombre}}</h5></td>
+            <td data-label="Código"><p class="card-text">{{equipo.Codigo_Serie}}</p></td>
+            {{!-- <td data-label="Modelo"><p class="card-text">{{equipo.Modelo}}</p></td>
+                  <td data-label="Categoría"><p class="card-text">{{equipo.Categoria}}</td> --}}
+            <td data-label="Marca"><p class="card-text">{{equipo.Marca}}</p></td>
+            {{!-- <td data-label="Descripción"><p class="card-text">{{equipo.Descripcion}}</p></td>
+                  <td data-label=""><p class="card-text">{{horas equipo.Tiempo_Restante}}</p></td> --}}
+           </tr>
+      </table>
+    </div>
+    <div class="card">
+        <form action="/prestarEquipos" method="POST" class="p-4" id="formhorarios">
+          <div class="form-check list-group col-md-8 text-center mx-auto">
+            <input type="hidden" value="{{Id_Usuario}}" name="id_usuario">
+            <input type="hidden" value="{{equipo.Id_Equipo}}" name="id_equipo">
+              {{#each horarios as |horario|}}
+                <input class="form-check-input" type="checkbox" value="{{Id_Horario_Equipos}}" id="CheckBox{{@index}}" name=horarios[]>
+                <label class="form-check-label list-group-item" for="CheckBox{{@index}}">
+                  {{Hora_Inicio}} - {{Hora_Fin}}
+                </label>
+                <br>
+                {{/each}}                
+          </div>
+          <br>
+          <div class="text-center">
+            <button type="submit"  onclick=" validacion(event)" class="btn btn-success col-md-6">Prestar Equipo</button>
+          </div>
+        </form>
+    </div>
+</div>
+<script>
+  
+  const validacion = (e) => {
+    let checkbox = document.querySelectorAll('input[type="checkbox"]:checked').length;
+    let horas = {{{horas equipo.Tiempo_Restante}}};
+    e.preventDefault();
+    if(checkbox>horas) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Las horas de préstamo exceden el tiempo de vida del artículo',
+      })
+    }else {
+      
+      let form = document.getElementById(`formhorarios`);
+      Swal.fire({
+        title: '¿Estás seguro(a)?',
+        text: "Se realizara el préstamo del artículo",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, realizar préstamo',
+        cancelButtonText: 'Cancelar'
+        }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire(
+            'Préstamo realizado',
+            'El artículo ha sido prestado',
+            'success'
+            )
+            form.submit();
+        }
+        })
+    }
+    
+  }
+
+  // TODO validaciones, fix call bd de porcentajes, envio de correos
+</script>

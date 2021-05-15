@@ -1,0 +1,46 @@
+{
+  "name": "residencia",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "concurrently \"npm run dev\" \"npm run cron\"",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon -L src/app.js",
+    "cron": "nodemon -L src/cron.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "bootswatch": "^4.6.0",
+    "concurrently": "^6.0.0",
+    "connect-flash": "^0.1.1",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.2.0",
+    "express-locale": "^2.0.0",
+    "express-mysql-session": "^2.1.5",
+    "express-session": "^1.17.1",
+    "express-validator": "^6.9.2",
+    "jquery": "^3.5.1",
+    "mariadb": "^2.5.2",
+    "moment": "^2.29.1",
+    "morgan": "^1.10.0",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.2.5",
+    "node-cron": "^2.0.3",
+    "node-notifier": "^9.0.0",
+    "nodemailer": "^6.5.0",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "pdfkit": "^0.11.0",
+    "remove": "^0.1.5",
+    "sequelize": "^6.4.0",
+    "timeago.js": "^4.0.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}

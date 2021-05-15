@@ -1,0 +1,49 @@
+<style>
+    tbody tr{
+        text-transform: uppercase;
+}
+</style>
+<div class="container p-4">
+
+{{#if NoReservacion}}   
+    <p class="text-center">NO HAY ARTÍCULOS PRESTADOS</p>
+    {{#if usuario.Maestro }}
+    <a href="/usuarios/{{usuario.Id_Usuario}}" class="btn-sm back-btn"> <i class="fas fa-angle-double-left"></i>Volver</a>
+    {{else}}
+    <a href="/usuarios" class="btn-sm back-btn"> <i class="fas fa-angle-double-left"></i>Volver</a>
+    {{/if}}
+{{else}} 
+<a href="/usuarios" class="btn-sm back-btn"> <i class="fas fa-angle-double-left"></i>Volver</a>
+    <h3 class="text-center mb-4">Devolver artículos</h3>
+    <table class="table table-bordered table-sm">
+        <thead class="thead-dark item-th">
+            <tr>
+            <th scope="col">Artículo</th>
+            <th scope="col">Código ID</th>
+            <th scope="col">Modelo</th>
+            <th scope="col">Categoría</th>
+            <th scope="col">Marca</th>
+            <th scope="col">Descripción</th>
+            <th scope="col" style="width: 150px;"></th>
+            </tr>
+        </thead>
+        {{#each equipos}}
+
+        <tbody>
+            <tr>
+            <td data-label="Equipo"><small class="card-title">{{Nombre}}</small></td>
+            <td data-label="Código"><small class="card-text" style="word-wrap: break-word;">{{Codigo_Serie}}</small></td>
+            <td data-label="Modelo"><small class="card-text" style="word-wrap: break-word;">{{Modelo}}</small></td>
+            <td data-label="Categoría"><small class="card-text" style="word-wrap: break-word;">{{Categoria}}</small></td>
+            <td data-label="Marca"><small class="card-text">{{Marca}}</small></td>
+            <td data-label="Descripción"><small class="card-text">{{Descripcion}}</small></td>
+            <td class="text-center"><a href="/devolverEquipo?id_usuario={{../Id_Usuario}}&id_equipo={{Id_Equipo}}"><button type="button" class="btn btn-primary">Detalles</button></a></td>
+            </tr>
+        </tbody>
+        {{/each}}
+    </table>
+{{/if}}
+</div>
+
+
+

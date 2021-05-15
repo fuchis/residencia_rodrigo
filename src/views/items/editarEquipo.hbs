@@ -1,0 +1,112 @@
+<div class="container p-4">
+  <div class="row">
+    <div class="col-md-4 mx-auto">
+      <div class="card text-center">
+        <div class="card-header">
+          <h3>Editar Equipo</h3>
+        </div>
+        <div class="card-body">
+            <form method="POST" action="/editarEquipo/{{equipo.Id_Equipo}}" name="formID" id="formID">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Tipo</label>
+                    <input name="Nombre" value="{{equipo.Nombre}}" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Nombre de Equipos">
+                </div>
+                <div class="form-group">
+                    <label for="">Marca</label>
+                    <input type="text" name="Marca" class="form-control" value="{{equipo.Marca}}">
+                </div>
+                <div class="form-group">
+                    <label for="">N° de Serie</label>
+                    <input type="text" name="Codigo_Serie" class="form-control" value="{{equipo.Codigo_Serie}}">
+                </div>
+                <div class="form-group">
+                    <label for="">N° Inventario</label>
+                    <input type="text" name="Modelo" class="form-control" value="{{equipo.Modelo}}">
+                </div>
+                <div class="form-group">
+                    <label for="">N° Interno</label>
+                    <input type="text" name="Categoria" class="form-control" value="{{equipo.Categoria}}">
+                </div>
+                <div class="form-group">
+                    <label for="">Caracteristicas</label>
+                    <input type="text" name="Descripcion" class="form-control" value="{{equipo.Descripcion}}">
+                </div>
+                <div class="form-group">
+                    <label for="">Estado</label>
+                    <select name="Estado" class="form-control"> 
+                        <option value="" selected hidden>--Seleccione una opción --</option>
+                        <option value="0">Deshabilitado </option>
+                        <option value="1">Activo</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="">Estado Físico</label>
+                    <select name="Estado_Fisico_Equipo" class="form-control">
+                        <option value="" selected hidden>--Seleccione una opción --</option>
+                        <option value="0">El equipo se encuentra en optimas condiciones </option>
+                        <option value="1">El equipo necesita mantenimiento</option>
+                        <option value="2">El equipo necesita mantenimiento urgentemente</option>
+                        <option value="3">El equipo necesita ser reemplazado urgentemente</option>
+                    </select>
+                </div>
+                <div class="form-group clearfix">
+                    <label for="">Tiempo de vida: </label>
+                    <input type="number" name="Tiempo_Original" value=1 min=1 max=838 class="form-control">
+                    <input type="hidden" name="Tiempo_Restante_Porcentaje" value=100.00>
+                    <small class="float-left">Tiempo de vida util</small>
+                </div>
+                <button type="submit" onclick="validacion(event)" class="btn btn-primary">Editar datos</button>
+                <a href="/equipos" class="btn btn-danger text-white">Cancelar</a>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+const validacion = async (e) => {
+    e.preventDefault();
+    let form = document.getElementById("formID");
+    const formulario = {
+        nombre: form["Nombre"].value,
+        marca: form["Marca"].value,
+        codigo_serie: form["Codigo_Serie"].value,
+        modelo: form["Modelo"].value,
+        categoria: form["Categoria"].value,
+        descripcion: form["Descripcion"].value,
+        estado: form["Estado"].value,
+        estado_fisico_equipo: form["Estado_Fisico_Equipo"].value,
+        tiempo_original: form["Tiempo_Original"].value,
+    }
+    console.log(formulario)
+
+    Swal.fire({
+        title: '¿Estás seguro(a)?',
+        text: "Editar",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, editar artículo'
+        }).then((result) => {
+        if (result.isConfirmed) {
+          let cont = 0;
+          Object.keys(formulario).map(key => {
+            if(formulario[key] === ""){
+              alert(`favor de llenar campo: ${key}`)
+              cont++;
+            }
+          })
+
+          if(cont===0){
+            form.submit();
+          }else {
+            cont = 0;
+          }
+            //
+        }
+        })
+}
+</script>

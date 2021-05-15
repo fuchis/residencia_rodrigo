@@ -1,0 +1,121 @@
+<style>
+    tbody tr{
+        text-transform: uppercase;
+}
+</style>
+
+<div class="container p-4">
+
+{{#if NoReservacion}}   
+    <p>NO HAY ARTÍCULOS PRESTADOS</p>
+    {{#if usuario.Maestro }}
+    <a href="/usuarios/{{usuario.Id_Usuario}}" class="btn-sm back-btn"> <i class="fas fa-angle-double-left"></i>Volver</a>
+    {{else}}
+    <a href="/usuarios" class="btn-sm back-btn"> <i class="fas fa-angle-double-left"></i>Volver</a>
+    {{/if}}
+{{else}} 
+
+<a href="/cancelarReservaciones?id_usuario={{Id_Usuario}}" class="btn-sm back-btn">
+    <i class="fas fa-angle-double-left"></i>Volver
+</a> 
+
+<h3 class="text-center mb-2">Reservaciones</h3>
+{{!-- <a href="/cancelarReservaciones?id_usuario={{Id_Usuario}}" class="btn-sm back-btn">
+    <i class="fas fa-angle-double-left"></i>Ver mas articulos reservados del usuario
+</a> --}}
+    <table class="table table-bordered table-sm">
+        <thead class="thead-dark item-th">
+            <tr>
+            <th scope="col">Artículo</th>
+            <th scope="col">Horario</th>
+            <th scope="col">Estado</th>
+            {{#if permisos }}
+            <th colspan="2">Acciones</th>
+            {{else}}
+            <th colspan="1">Acción</th>
+            {{/if}}
+            </tr>
+        </thead>
+        {{#each equipos}}
+        <tbody>
+            <tr>
+            <td data-label="Equipo"><p class="card-title" >{{Nombre}}</p></td>
+            <td data-label="Descripción"><p class="card-text">{{Hora_Inicio}} {{Hora_Fin}}</p></td>
+            <td data-label="Estado"><p class="card-text">{{Estado}}eservado</p></td>
+            {{#if ../permisos }}
+            <td>
+                <form action="/AutorizarPrestamo" method="POST" name="formAutorizarID{{@index}}" id="formAutorizarID{{@index}}">
+                    <input type="hidden" value={{../Id_Usuario}} name="id_usuario">
+                    <input type="hidden" value={{Id_Equipo}} name="id_equipo">
+                    <input type="hidden" value={{Id_prestamo}} name="id_prestamo">
+                    <input type="hidden" value={{fk_horarios}} name="fk_horarios">
+                    <div class="text-center">
+                    {{#if disponibilidad}}
+                    <button type="submit" onclick="validacionAutorizar(event, {{@index}})" class="btn btn-success">Autorizar Préstamo</button>
+                    {{else}}
+                    <button type="submit" onclick="validacionAutorizar(event, {{@index}})" class="btn btn-success" disabled>Autorizar Préstamo</button>
+                    {{/if}}
+                    </div>
+                </form>
+            </td>
+            {{/if}}
+            <td data-label="">
+                <div class="text-center">
+                <form action="/cancelarReservacion" method="POST" class="mb-2" name="formCancelarID{{@index}}" id="formCancelarID{{@index}}">
+                    <input type="hidden" value={{../Id_Usuario}} name="id_usuario">
+                    <input type="hidden" value={{Id_Equipo}} name="id_equipo">
+                    <input type="hidden" value={{Id_prestamo}} name="id_prestamo">
+                    <input type="hidden" value={{fk_horarios}} name="fk_horarios">
+                    <button type="submit" onclick="validacionCancelar(event, {{@index}})" class="btn btn-danger">Cancelar Reservación</button>
+                </form>
+                </div>
+            </td>
+            </tr>
+        </tbody>
+        {{/each}}
+    </table>
+{{/if}}
+</div>
+
+
+<script>
+const validacionCancelar = async (e, index) => {
+    e.preventDefault();
+    let form = document.getElementById(`formCancelarID${index}`);
+    Swal.fire({
+        title: '¿Estás seguro(a)?',
+        text: "Cancelar reservación",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, cancelar reservación',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.submit();
+        }
+    })
+
+}
+const validacionAutorizar = async (e, index) => {
+    e.preventDefault();
+    let form = document.getElementById(`formAutorizarID${index}`);
+
+    Swal.fire({
+        title: '¿Estás seguro(a)?',
+        text: "Autorizar",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, autorizar reservación',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.submit();
+        }
+    })
+}
+</script>
+

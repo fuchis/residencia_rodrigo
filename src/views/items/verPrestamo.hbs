@@ -1,0 +1,48 @@
+<style>
+    tbody tr{
+        text-transform: uppercase;
+}
+</style>
+<div class="container p-4">
+
+{{#if NoReservacion}}   
+    <p>NO HAY ARTICULOS PRESTADOS</p>
+    {{#if usuario.Maestro }}
+    <a href="/usuarios/{{usuario.Id_Usuario}}" class="btn-sm back-btn"> <i class="fas fa-angle-double-left"></i> Volver</a>
+    {{else }}
+    <a href="/usuarios" class="btn-sm back-btn"> <i class="fas fa-angle-double-left"></i>Volver</a>
+    {{/if}}
+{{else}} 
+{{#if usuario.Maestro }}
+<a href="/verPrestamos?id_usuario={{usuario.Id_Usuario}}" class="btn-sm back-btn"> <i class="fas fa-angle-double-left"></i>Volver</a>
+{{else }}
+<a href="/usuarios" class="btn-sm back-btn"> <i class="fas fa-angle-double-left"></i>Volver</a>
+{{/if}}
+<h3 class="text-center mb-4">Prestamos</h3>
+    <table class="table table-bordered table-sm">
+        <thead class="thead-dark item-th">
+            <tr>
+            <th scope="col">Artículo</th>
+            <th scope="col">Descripción</th>
+            <th scope="col">Estado</th>
+            </tr>
+        </thead>
+        {{#each equipos}}
+        <tbody>
+            <tr>
+            <td data-label="Equipo"><h5 class="card-title">{{Nombre}}</h5></td>
+            <td data-label="Descripción"><p class="card-text">{{Hora_Inicio}} {{Hora_Fin}}</p></td>
+            <td data-label="Estado"><p class="card-text">{{Estado}}restado</p></td>
+            </tr>
+        </tbody>
+        {{/each}}
+    </table>
+{{/if}}
+</div>
+
+
+
+
+
+
+

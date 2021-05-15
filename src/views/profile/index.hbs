@@ -1,0 +1,748 @@
+<style>
+    @import url(https://fonts.googleapis.com/css?family=Muli:400, 300);
+
+.btn-try{
+  margin: 0;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+    
+}
+
+.img-icon{
+    /* border: 1px red solid; */
+    background-color: #dee3f8;
+    height: 7rem;
+}
+
+.icono-img{
+    width: 100px;
+}
+
+.calendar, .calendar_weekdays, .calendar_content {
+    max-width: 400px;
+}
+.calendar {
+    margin: auto;
+    font-family:'Muli', sans-serif;
+    font-weight: 400;
+}
+.calendar_content, .calendar_weekdays, .calendar_header {
+    position: relative;
+    overflow: hidden;
+}
+.calendar_weekdays div {
+    display:inline-block;
+    vertical-align:top;
+}
+.calendar_weekdays div, .calendar_content div {
+    width: 14.28571%;
+    overflow: hidden;
+    text-align: center;
+    background-color: transparent;
+    color: #545455;
+    font-size: 14px;
+}
+.calendar_content div {
+    border: 1px solid transparent;
+    float: left;
+}
+.calendar_content div:hover {
+    border: 1px solid #740303;
+    border-radius: 3px;
+    cursor: default;
+}
+.calendar_content div.blank:hover {
+    cursor: default;
+    border: 1px solid transparent;
+}
+.calendar_content div.past-date {
+    color: #d6d6d6;
+}
+.calendar_content div.today {
+    font-weight: bold;
+    font-size: 14px;
+    color: #283a4d;
+    border: 1px solid #dcdcdc;
+}
+.calendar_content div.selected {
+    background-color: #94caf7;
+}
+.calendar_header {
+    width: 100%;
+    text-align: center;
+}
+.calendar_header h2 {
+    padding: 0 10px;
+    font-family:'Muli', sans-serif;
+    font-weight: 300;
+    font-size: 18px;
+    color: #000000;
+    float:left;
+    width:70%;
+    margin: 0 0 10px;
+}
+button.switch-month {
+    background-color: transparent;
+    padding: 0;
+    outline: none;
+    border: none;
+    color: #dcdcdc;
+    float: left;
+    width:15%;
+    transition: color .2s;
+}
+button.switch-month:hover {
+    color: #2d363f;
+}
+</style>
+
+<div class="container content-row pt-3 ">
+    <h5 class="card-title mb-4">Bienvenido/a {{ usuario.Nombre }} {{ usuario.Apellido }}</h5>
+    {{!-- <p class="card-text">Username: {{usuario.Nombre_Usuario}}</p> --}}
+    <div class="row mb-2">
+
+            {{#if usuario.Maestro }}
+                <div class="col-sm-6 mb-4">
+                <div class="card h-100">
+                        <div class="img-icon"></div>
+                        <div class="card-body">
+                        <img class="mx-auto btn-try icono-img" src="/img/sho.png" alt="">
+                        <p>Reserva artículos, ve tus reservaciones y checa tus prestamos</p>
+                        <a href="/usuarios/{{usuario.Id_Usuario}}" class=" text-white"><button type="button" class="btn btn-info btn-block mb-2 btn-responsive">Reservar!</button></a>
+                    </div>
+                </div>  
+                </div>
+                {{!-- calendario --}}
+            <div class="col-sm-6 mb-4 mx-auto">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="calendar calendar-first" id="calendar_first">
+                        <div class="calendar_header">
+                        <button class="switch-month switch-left"> <i class="fa fa-chevron-left"></i></button>
+                        <h2></h2>
+                        <button class="switch-month switch-right"> <i class="fa fa-chevron-right"></i></button>
+                        </div>
+                        <div class="calendar_weekdays"></div>
+                        <div class="calendar_content"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{/if}}
+            {{#if usuario.Admin}}
+                <div class="col-sm-4 mb-4">
+                    <div class="card-info h-100">
+                        <div class="card-body">
+                            <div class="text-center mb-4"> <i class="fas fa-info-circle icono-res"></i>  
+                            <h4 class="mt-2">Datos del sistema</h4>
+                            </div>
+                            <div class="text-center mb-2">
+                            <a href="/sistema" class=" text-white"><button type="button" class="btn btn-outline-danger btn-md btn-block mb-2 btn-responsive">Editar datos de Contacto del Sistema</button></a> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 mb-4">
+                    <div class="card-info h-100">
+                        <div class="card-body">
+                            <div class="text-center mb-4"> <i class="far fa-calendar-alt icono-res"></i>  
+                            <h4 class="mt-2">Reservaciones / Préstamos </h4>
+                            </div>
+                            <div class="text-center mb-2">
+                            <a href="/prestamosPR" class=" text-white"><button type="button" class="btn btn-info btn-md btn-block mb-2 btn-responsive">Ver Préstamos/Reservaciones activas</button></a> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4 mb-4">
+                    <div class="card-info h-100">
+                        <div class="card-body">
+                            <div class="text-center mb-4"> <i class="fas fa-history icono-res"></i>  
+                            <h4 class="mt-2">Historial de préstamos</h4>
+                            </div>
+                            <div class="text-center mb-2">
+                            <a href="/prestamosHistorial" class=" text-white"><button type="button" class="btn btn-info btn-md btn-block btn-responsive">Ver Histórico de Préstamos/Reservaciones</button></a> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {{/if}}
+            {{#if usuario.Servicio }}
+            <div class="col-sm-6 mb-4">
+                    <div class="card-info h-100">
+                        <div class="card-body">
+                            <div class="text-center mb-4"> <i class="far fa-calendar-alt icono-res"></i>  
+                            <h4 class="mt-2">Reservaciones / Préstamos </h4>
+                            </div>
+                            <div class="text-center mb-2">
+                            <a href="/prestamosPR" class=" text-white"><button type="button" class="btn btn-info btn-md btn-block mb-2 btn-responsive">Ver Préstamos/Reservaciones activas</button></a> 
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="col-sm-6 mb-4">
+                    <div class="card-info h-100">
+                        <div class="card-body">
+                            <div class="text-center mb-4"> <i class="fas fa-history icono-res"></i>  
+                            <h4 class="mt-2">Historial de préstamos</h4>
+                            </div>
+                            <div class="text-center mb-2">
+                            <a href="/prestamosHistorial" class=" text-white"><button type="button" class="btn btn-info btn-md btn-block btn-responsive">Ver Histórico de Préstamos/Reservaciones</button></a> 
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            {{/if}}
+        
+    </div> 
+    
+    {{!-- Estaditicas globales chart --}}
+    {{#if usuario.Maestro }}
+    <div></div>
+    {{else}} 
+    <hr>
+    <h2 class="text-center mb-3">Estadisticas Globales</h2>
+    <div class="row mb-4">
+        {{!-- grafica reservaciones --}}
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                <h4 class="card-text text-center">Reservaciones Totales</h4>
+                <canvas id="myChart" width="400" height="400"></canvas>
+                </div>
+            </div>
+            <div class="mb-2">
+                <button class="btn btn-info btn-sm" onclick="saveAsPDF1();">Guardar PDF</button>
+                <a id="download" download="chartReservaciones.jpg" href="" class="btn btn-primary btn-sm float-right"
+                title="Descargar Gráfico">
+                <!-- Download Icon -->
+                <i class="fa fa-download"></i>
+                </a>
+            </div>
+        </div>
+        {{!-- grafica prestamos --}}
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-text text-center">Préstamos Totales</h4>
+                    <canvas id="myChart2" width="400" height="400"></canvas>
+                </div>
+            </div>
+             <button class="btn btn-info btn-sm" onclick="saveAsPDF();">save as pdf</button>
+             <a id="download2" download="chartPrestamos.jpg" href="" class="btn btn-primary btn-sm float-right"
+            title="Descargar Gráfico">
+            <!-- Download Icon -->
+            <i class="fa fa-download"></i>
+            </a>
+        </div>
+    </div>
+    {{/if}}
+    
+</div>
+     
+
+<script>
+    //Primera grafica reserv
+    var data ={{{equiposHistorial}}}
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: data.map(articulo => articulo.Nombre),
+            datasets: [{
+                label: '# de Reservaciones',
+                data: data.map(articulo => articulo.Reservados),
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+    });
+
+    function saveAsPDF1() {
+    html2canvas(document.getElementById("myChart"), {
+      onrendered: function(canvas) {
+         var img = canvas.toDataURL(); //image data of canvas
+         var doc = new jsPDF();
+         doc.addImage(img, 10, 20);
+         doc.text(5, 10, 'Estadistica de Reservaciones');
+         doc.save('Reservaciones.pdf');
+      }
+   });
+}
+
+    //descargar jpg charts
+    document.getElementById("download").addEventListener('click', function(){
+        var url_base64jp = document.getElementById("myChart").toDataURL("image/jpg");
+        var a =  document.getElementById("download");
+        a.href = url_base64jp;
+    });
+
+    //Segunda grafica prest
+    var ctx2 = document.getElementById('myChart2').getContext('2d');
+    var myChart = new Chart(ctx2, {
+        type: 'pie',
+        data: {
+            labels: data.map(articulo => articulo.Nombre),
+            datasets: [{
+                label: '# de Reservaciones',
+                data: data.map(articulo => articulo.Prestados),
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        
+    });
+
+    function saveAsPDF() {
+    html2canvas(document.getElementById("myChart2"), {
+      onrendered: function(canvas) {
+         var img = canvas.toDataURL(); //image data of canvas
+         var doc = new jsPDF();
+         doc.addImage(img, 10, 20);
+         doc.text(5, 10, 'Estadistica de Prestamos');
+         doc.save('prestamos.pdf');
+      }
+   });
+}
+
+//descargar jpg charts
+    document.getElementById("download2").addEventListener('click', function(){
+        var url_base64jp = document.getElementById("myChart2").toDataURL("image/jpg");
+        var a =  document.getElementById("download2");
+        a.href = url_base64jp;
+    });
+     
+     
+     
+</script>
+
+<script>
+
+    $(document).ready(function () {
+    function c(passed_month, passed_year, calNum) {
+        var calendar = calNum == 0 ? calendars.cal1 : calendars.cal2;
+        makeWeek(calendar.weekline);
+        calendar.datesBody.empty();
+        var calMonthArray = makeMonthArray(passed_month, passed_year);
+        var r = 0;
+        var u = false;
+        while (!u) {
+            if (daysArray[r] == calMonthArray[0].weekday) {
+                u = true
+            } else {
+                calendar.datesBody.append('<div class="blank"></div>');
+                r++;
+            }
+        }
+        for (var cell = 0; cell < 42 - r; cell++) { // 42 date-cells in calendar
+            if (cell >= calMonthArray.length) {
+                calendar.datesBody.append('<div class="blank"></div>');
+            } else {
+                var shownDate = calMonthArray[cell].day;
+                var iter_date = new Date(passed_year, passed_month, shownDate);
+                if (
+                (
+                (shownDate != today.getDate() && passed_month == today.getMonth()) || passed_month != today.getMonth()) && iter_date < today) {
+                    var m = '<div class="past-date">';
+                } else {
+                    var m = checkToday(iter_date) ? '<div class="today">' : "<div>";
+                }
+                calendar.datesBody.append(m + shownDate + "</div>");
+            }
+        }
+
+        var color = "#444444";
+        calendar.calHeader.find("h2").text(i[passed_month] + " " + passed_year);
+        calendar.weekline.find("div").css("color", color);
+        calendar.datesBody.find(".today").css("color", "#343a40");
+
+        // find elements (dates) to be clicked on each time
+        // the calendar is generated
+        var clicked = false;
+        selectDates(selected);
+
+        clickedElement = calendar.datesBody.find('div');
+        clickedElement.on("click", function () {
+            clicked = $(this);
+            var whichCalendar = calendar.name;
+
+            if (firstClick && secondClick) {
+                thirdClicked = getClickedInfo(clicked, calendar);
+                var firstClickDateObj = new Date(firstClicked.year,
+                firstClicked.month,
+                firstClicked.date);
+                var secondClickDateObj = new Date(secondClicked.year,
+                secondClicked.month,
+                secondClicked.date);
+                var thirdClickDateObj = new Date(thirdClicked.year,
+                thirdClicked.month,
+                thirdClicked.date);
+                if (secondClickDateObj > thirdClickDateObj && thirdClickDateObj > firstClickDateObj) {
+                    secondClicked = thirdClicked;
+                    // then choose dates again from the start :)
+                    bothCals.find(".calendar_content").find("div").each(function () {
+                        $(this).removeClass("selected");
+                    });
+                    selected = {};
+                    selected[firstClicked.year] = {};
+                    selected[firstClicked.year][firstClicked.month] = [firstClicked.date];
+                    selected = addChosenDates(firstClicked, secondClicked, selected);
+                } else { // reset clicks
+                    selected = {};
+                    firstClicked = [];
+                    secondClicked = [];
+                    firstClick = false;
+                    secondClick = false;
+                    bothCals.find(".calendar_content").find("div").each(function () {
+                        $(this).removeClass("selected");
+                    });
+                }
+            }
+            if (!firstClick) {
+                firstClick = true;
+                firstClicked = getClickedInfo(clicked, calendar);
+                selected[firstClicked.year] = {};
+                selected[firstClicked.year][firstClicked.month] = [firstClicked.date];
+            } else {
+                secondClick = true;
+                secondClicked = getClickedInfo(clicked, calendar);
+
+                // what if second clicked date is before the first clicked?
+                var firstClickDateObj = new Date(firstClicked.year,
+                firstClicked.month,
+                firstClicked.date);
+                var secondClickDateObj = new Date(secondClicked.year,
+                secondClicked.month,
+                secondClicked.date);
+
+                if (firstClickDateObj > secondClickDateObj) {
+
+                    var cachedClickedInfo = secondClicked;
+                    secondClicked = firstClicked;
+                    firstClicked = cachedClickedInfo;
+                    selected = {};
+                    selected[firstClicked.year] = {};
+                    selected[firstClicked.year][firstClicked.month] = [firstClicked.date];
+
+                } else if (firstClickDateObj.getTime() == secondClickDateObj.getTime()) {
+                    selected = {};
+                    firstClicked = [];
+                    secondClicked = [];
+                    firstClick = false;
+                    secondClick = false;
+                    $(this).removeClass("selected");
+                }
+
+
+                // add between dates to [selected]
+                selected = addChosenDates(firstClicked, secondClicked, selected);
+            }
+            selectDates(selected);
+        });
+
+    }
+
+    function selectDates(selected) {
+        if (!$.isEmptyObject(selected)) {
+            var dateElements1 = datesBody1.find('div');
+            var dateElements2 = datesBody2.find('div');
+
+            function highlightDates(passed_year, passed_month, dateElements) {
+                if (passed_year in selected && passed_month in selected[passed_year]) {
+                    var daysToCompare = selected[passed_year][passed_month];
+                    for (var d in daysToCompare) {
+                        dateElements.each(function (index) {
+                            if (parseInt($(this).text()) == daysToCompare[d]) {
+                                $(this).addClass('selected');
+                            }
+                        });
+                    }
+
+                }
+            }
+
+            highlightDates(year, month, dateElements1);
+            highlightDates(nextYear, nextMonth, dateElements2);
+        }
+    }
+
+    function makeMonthArray(passed_month, passed_year) { // creates Array specifying dates and weekdays
+        var e = [];
+        for (var r = 1; r < getDaysInMonth(passed_year, passed_month) + 1; r++) {
+            e.push({
+                day: r,
+                // Later refactor -- weekday needed only for first week
+                weekday: daysArray[getWeekdayNum(passed_year, passed_month, r)]
+            });
+        }
+        return e;
+    }
+
+    function makeWeek(week) {
+        week.empty();
+        for (var e = 0; e < 7; e++) {
+            week.append("<div>" + daysArray[e].substring(0, 3) + "</div>")
+        }
+    }
+
+    function getDaysInMonth(currentYear, currentMon) {
+        return (new Date(currentYear, currentMon + 1, 0)).getDate();
+    }
+
+    function getWeekdayNum(e, t, n) {
+        return (new Date(e, t, n)).getDay();
+    }
+
+    function checkToday(e) {
+        var todayDate = today.getFullYear() + '/' + (today.getMonth() + 1) + '/' + today.getDate();
+        var checkingDate = e.getFullYear() + '/' + (e.getMonth() + 1) + '/' + e.getDate();
+        return todayDate == checkingDate;
+
+    }
+
+    function getAdjacentMonth(curr_month, curr_year, direction) {
+        var theNextMonth;
+        var theNextYear;
+        if (direction == "next") {
+            theNextMonth = (curr_month + 1) % 12;
+            theNextYear = (curr_month == 11) ? curr_year + 1 : curr_year;
+        } else {
+            theNextMonth = (curr_month == 0) ? 11 : curr_month - 1;
+            theNextYear = (curr_month == 0) ? curr_year - 1 : curr_year;
+        }
+        return [theNextMonth, theNextYear];
+    }
+
+    function b() {
+        today = new Date;
+        year = today.getFullYear();
+        month = today.getMonth();
+        var nextDates = getAdjacentMonth(month, year, "next");
+        nextMonth = nextDates[0];
+        nextYear = nextDates[1];
+    }
+
+    var e = 480;
+
+    var today;
+    var year,
+    month,
+    nextMonth,
+    nextYear;
+
+    var r = [];
+    var i = [
+        "ENERO",
+        "FEBRERO",
+        "MARZO",
+        "ABRIL",
+        "MAYO",
+        "JUNIO",
+        "JULIO",
+        "AUGOSTO",
+        "SEPTIEMBRE",
+        "OCTUBRE",
+        "NOVIEMBRE",
+        "DICIEMBRE"];
+    var daysArray = [
+        "Domingo",
+        "Lunes",
+        "Martes",
+        "Miercoles",
+        "Jueves",
+        "Viernes",
+        "Sabado"];
+
+    var cal1 = $("#calendar_first");
+    var calHeader1 = cal1.find(".calendar_header");
+    var weekline1 = cal1.find(".calendar_weekdays");
+    var datesBody1 = cal1.find(".calendar_content");
+
+    var cal2 = $("#calendar_second");
+    var calHeader2 = cal2.find(".calendar_header");
+    var weekline2 = cal2.find(".calendar_weekdays");
+    var datesBody2 = cal2.find(".calendar_content");
+
+    var bothCals = $(".calendar");
+
+    var switchButton = bothCals.find(".calendar_header").find('.switch-month');
+
+    var calendars = {
+        "cal1": {
+            "name": "first",
+                "calHeader": calHeader1,
+                "weekline": weekline1,
+                "datesBody": datesBody1
+        },
+            "cal2": {
+            "name": "second",
+                "calHeader": calHeader2,
+                "weekline": weekline2,
+                "datesBody": datesBody2
+        }
+    }
+
+
+    var clickedElement;
+    var firstClicked,
+    secondClicked,
+    thirdClicked;
+    var firstClick = false;
+    var secondClick = false;
+    var selected = {};
+
+    b();
+    c(month, year, 0);
+    c(nextMonth, nextYear, 1);
+    switchButton.on("click", function () {
+        var clicked = $(this);
+        var generateCalendars = function (e) {
+            var nextDatesFirst = getAdjacentMonth(month, year, e);
+            var nextDatesSecond = getAdjacentMonth(nextMonth, nextYear, e);
+            month = nextDatesFirst[0];
+            year = nextDatesFirst[1];
+            nextMonth = nextDatesSecond[0];
+            nextYear = nextDatesSecond[1];
+
+            c(month, year, 0);
+            c(nextMonth, nextYear, 1);
+        };
+        if (clicked.attr("class").indexOf("left") != -1) {
+            generateCalendars("previous");
+        } else {
+            generateCalendars("next");
+        }
+        clickedElement = bothCals.find(".calendar_content").find("div");
+    });
+
+
+    //  Click picking stuff
+    function getClickedInfo(element, calendar) {
+        var clickedInfo = {};
+        var clickedCalendar,
+        clickedMonth,
+        clickedYear;
+        clickedCalendar = calendar.name;
+        clickedMonth = clickedCalendar == "first" ? month : nextMonth;
+        clickedYear = clickedCalendar == "first" ? year : nextYear;
+        clickedInfo = {
+            "calNum": clickedCalendar,
+                "date": parseInt(element.text()),
+                "month": clickedMonth,
+                "year": clickedYear
+        }
+        return clickedInfo;
+    }
+
+
+    // Finding between dates MADNESS. Needs refactoring and smartening up :)
+    function addChosenDates(firstClicked, secondClicked, selected) {
+        if (secondClicked.date > firstClicked.date || secondClicked.month > firstClicked.month || secondClicked.year > firstClicked.year) {
+
+            var added_year = secondClicked.year;
+            var added_month = secondClicked.month;
+            var added_date = secondClicked.date;
+
+            if (added_year > firstClicked.year) {
+                // first add all dates from all months of Second-Clicked-Year
+                selected[added_year] = {};
+                selected[added_year][added_month] = [];
+                for (var i = 1;
+                i <= secondClicked.date;
+                i++) {
+                    selected[added_year][added_month].push(i);
+                }
+
+                added_month = added_month - 1;
+                while (added_month >= 0) {
+                    selected[added_year][added_month] = [];
+                    for (var i = 1;
+                    i <= getDaysInMonth(added_year, added_month);
+                    i++) {
+                        selected[added_year][added_month].push(i);
+                    }
+                    added_month = added_month - 1;
+                }
+
+                added_year = added_year - 1;
+                added_month = 11; // reset month to Dec because we decreased year
+                added_date = getDaysInMonth(added_year, added_month); // reset date as well
+
+                // Now add all dates from all months of inbetween years
+                while (added_year > firstClicked.year) {
+                    selected[added_year] = {};
+                    for (var i = 0; i < 12; i++) {
+                        selected[added_year][i] = [];
+                        for (var d = 1; d <= getDaysInMonth(added_year, i); d++) {
+                            selected[added_year][i].push(d);
+                        }
+                    }
+                    added_year = added_year - 1;
+                }
+            }
+
+            if (added_month > firstClicked.month) {
+                if (firstClicked.year == secondClicked.year) {
+                    selected[added_year][added_month] = [];
+                    for (var i = 1;
+                    i <= secondClicked.date;
+                    i++) {
+                        selected[added_year][added_month].push(i);
+                    }
+                    added_month = added_month - 1;
+                }
+                while (added_month > firstClicked.month) {
+                    selected[added_year][added_month] = [];
+                    for (var i = 1;
+                    i <= getDaysInMonth(added_year, added_month);
+                    i++) {
+                        selected[added_year][added_month].push(i);
+                    }
+                    added_month = added_month - 1;
+                }
+                added_date = getDaysInMonth(added_year, added_month);
+            }
+
+            for (var i = firstClicked.date + 1;
+            i <= added_date;
+            i++) {
+                selected[added_year][added_month].push(i);
+            }
+        }
+        return selected;
+    }
+});
+</script>

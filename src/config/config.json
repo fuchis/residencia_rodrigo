@@ -1,0 +1,25 @@
+
+{
+  "development": {
+    "username": "root",
+    "password": "movsteam",
+    "database": "residencia_dev",
+    "host": "localhost",
+    "dialect": "mysql",
+    "port": 3306
+  },
+  "test": {
+    "username": "root2",
+    "password": "Adoromips4",
+    "database": "residencia_test",
+    "host": "192.168.1.69",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root2",
+    "password": "Adoromips4",
+    "database": "residencia_dev",
+    "host": "192.168.1.69",
+    "dialect": "mysql"
+  }
+} 

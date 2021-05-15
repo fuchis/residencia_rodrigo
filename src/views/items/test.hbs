@@ -1,0 +1,44 @@
+<div class="container p-4">
+{{#if NoReservacion}}   
+    <p>NO HAY {{texto}}</p>
+    {{#if usuario.Maestro }}
+    <a href="/usuarios/{{usuario.Id_Usuario}}" class="d-flex justify-content-end mb-2">Volver</a>
+    {{else }}
+    <a href="/usuarios"  class="d-flex justify-content-end mb-2">Volver</a>
+    {{/if}}
+{{else}} 
+{{#if usuario.Maestro }}
+<a href="/usuarios/{{usuario.Id_Usuario}}" class="d-flex justify-content-end mb-2">Volver</a>
+{{else }}
+<a href="/usuarios" class="d-flex justify-content-end mb-2">Volver</a>
+{{/if}}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+            <th scope="col">Artículo</th>
+            <th scope="col">óodigo ID</th>
+            <th scope="col">Modelo</th>
+            <th scope="col">Categoría</th>
+            <th scope="col">Marca</th>
+            <th scope="col">Descripción</th>
+            <th scope="col" style="width: 150px;"></th>
+            </tr>
+        </thead>
+        {{#each equipos}}
+
+        <tbody>
+            <tr>
+            <td data-label="Equipo"><h5 class="card-title">{{Nombre}}</h5></td>
+            <td data-label="Código"><p class="card-text">{{Codigo_Serie}}</p></td>
+            <td data-label="Modelo"><p class="card-text">{{Modelo}}</p></td>
+            <td data-label="Categoría"><p class="card-text">{{Categoria}}</p></td>
+            <td data-label="Marca"><p class="card-text">{{Marca}}</p></td>
+            <td data-label="Descripción"><p class="card-text">{{Descripcion}}</p></td>
+            <td class="text-center"><a href="/verPrestamo/{{Id_Equipo}}?id_usuario={{../Id_Usuario}}"><button type="button" class="btn btn-primary">Detalles</button></a></td>
+            </tr>
+        </tbody>
+        {{/each}}
+    </table>
+{{/if}}
+</div>
+
