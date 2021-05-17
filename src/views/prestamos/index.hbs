@@ -12,9 +12,7 @@
     <a href="/profile" class="btn-sm back-btn"> <i class="fas fa-angle-double-left"></i>Volver</a>
     </div>
 
-     <div class="float-rigth">
-        <a href="/vaciarG" class="btn-sm back-btn" onclick="confirmar(event)" > <i class="fas fa-trash-alt"></i> Vaciar estadisticas globales</a>
-    </div> 
+     
 
     <div>
      
@@ -56,6 +54,11 @@
     </tbody>
     {{/each}}
     </table>
+
+    <div class="float-right">
+        <a href="/vaciarG" class="btn-sm back-btn" onclick="confirmar(event)" > <i class="fas fa-trash-alt"></i> Vaciar estadisticas globales</a>
+    </div> 
+
     {{#if busqueda}}
     <div id="paginador"></div>
     {{/if}}
